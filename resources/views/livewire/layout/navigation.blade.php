@@ -31,15 +31,11 @@ new class extends Component {
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('auctions.index')" :active="request()->routeIs('auctions')" wire:navigate>
-                        {{ __('Auctions') }}
+                        {{ __('Digital Trading Platform') }}
                     </x-nav-link>
                 </div>
 
-                {{--                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">--}}
-                {{--                    <x-nav-link :href="route('listings.index')" :active="request()->routeIs('listings')" wire:navigate>--}}
-                {{--                        {{ __('Listings') }}--}}
-                {{--                    </x-nav-link>--}}
-                {{--                </div>--}}
+
             </div>
 
             <!-- Settings Dropdown -->

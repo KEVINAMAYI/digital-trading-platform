@@ -62,8 +62,18 @@ new #[Layout('layouts.app')] class extends Component {
                     </a>
 
 
-                    <h2 class="text-2xl font-semibold mb-6">{{ $listing->title }} - Base Price :
+                    <h2 class="text-2xl font-semibold">{{ $listing->title }} <br> Base Price :
                         KES {{ $listing->base_price }}</h2>
+                    <h4 class="">
+                        Previous Auction (Best Offer): KES {{ number_format($listing->bids->max('amount') * 0.9, 2) != '0' ?
+                                                                          number_format($listing->bids->max('amount') * 0.9, 2)
+                                                                          : number_format($listing->base_price, 2) }}
+
+                    </h4>
+                    <h4 class=" mb-5">
+                        Current Volume : 1 <br>
+                        Previous Auction (Volume) : 1
+                    </h4>
 
                     <form wire:submit.prevent="placeBid" class="space-y-4">
                         <input type="number" wire:model.live="amount" class="w-full p-3 border rounded">

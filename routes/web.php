@@ -14,8 +14,7 @@ use Livewire\Volt\Volt;
 |
 */
 
-Route::view('/', 'auctions/index')
-    ->name('auctions.index');
+Route::view('/', 'welcome');
 
 //auctions
 Route::view('auctions', 'auctions/index')

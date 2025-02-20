@@ -95,6 +95,9 @@ new #[Layout('layouts.app')] class extends Component {
                                             Best Offer
                                         </th>
                                         <th class="px-6 py-4 text-start text-gray-800 dark:text-gray-200 font-semibold border-b">
+                                            Volume
+                                        </th>
+                                        <th class="px-6 py-4 text-start text-gray-800 dark:text-gray-200 font-semibold border-b">
                                             Action
                                         </th>
                                     </tr>
@@ -107,9 +110,18 @@ new #[Layout('layouts.app')] class extends Component {
                                                 KES {{ number_format($listing->base_price, 2) }}
                                             </td>
                                             <td class="px-6 py-4 text-gray-900 dark:text-gray-300 font-semibold">
-                                                Current: KES {{ number_format($listing->bids->max('amount') ?? 0, 2) }} <br>
+                                                Current: KES {{ number_format($listing->bids->max('amount') ?? 0, 2) }}
+                                                <br>
                                                 <span class="text-sm text-gray-500 font-medium">
-                                                 Previous Auction: KES {{ number_format($listing->bids->max('amount') * 0.9, 2) }}
+                                                 Previous Auction: KES {{ number_format($listing->bids->max('amount') * 0.9, 2) != '0' ?
+                                                                          number_format($listing->bids->max('amount') * 0.9, 2)
+                                                                          : number_format($listing->base_price, 2) }}
+                                                </span>
+                                            </td>
+                                            <td class="px-6 py-4 text-gray-900 dark:text-gray-300 font-semibold">
+                                                Current: 1 <br>
+                                                <span class="text-sm text-gray-500 font-medium">
+                                                 Previous Auction: 1
                                                 </span>
                                             </td>
                                             <td class="px-6 py-4">

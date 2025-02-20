@@ -71,15 +71,6 @@ php artisan serve
 http://localhost:8000
 ```
 
-## 🔑 Default Admin Credentials
-
-Use the following credentials to log:
-
-| **Field**   | **Value**              |
-|------------|----------------------|
-| **Email**  | `admin@admin.com`  |
-| **Password** | `password`         |
-
 
 
 

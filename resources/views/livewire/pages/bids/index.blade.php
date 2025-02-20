@@ -50,6 +50,19 @@ new #[Layout('layouts.app')] class extends Component {
         <div class="bg-transparent dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div class="max-w-4xl mx-auto p-6">
                 <div class="mt-3 max-w-2xl mx-auto p-6">
+
+                    @if (session('success'))
+                        <div
+                            x-data="{ show: true }"
+                            x-init="setTimeout(() => show = false, 3000)"
+                            x-show="show"
+                            x-transition.duration.500ms
+                            class="mb-3 bg-green-500 text-white p-3 rounded-lg shadow-md"
+                        >
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
                     <!-- Submit Button -->
                     <a wire:navigate href="{{ route('auctions.view',$listing->auction->id) }}"
                        class="mb-5 inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">

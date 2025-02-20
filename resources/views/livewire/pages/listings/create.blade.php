@@ -33,7 +33,6 @@ new #[Layout('layouts.app')] class extends Component {
         ]);
 
         session()->flash('success', 'Listing created successfully!');
-
         $this->redirect(route('auctions.view', $this->auction_id), navigate: true);
         $this->reset('title', 'base_price');
     }

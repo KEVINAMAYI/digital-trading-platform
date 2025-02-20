@@ -23,7 +23,6 @@ new class extends Component {
         ]);
 
         session()->flash('success', 'Auction created successfully!');
-
         $this->redirect(route('auctions.index'), navigate: true);
         $this->reset();
     }

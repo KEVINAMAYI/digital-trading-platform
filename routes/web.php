@@ -36,9 +36,11 @@ Volt::route('create-listing/{auction_id}', 'pages.listings.create')
 
 //bids
 Volt::route('bids/{listing_id}', 'pages.bids.index')
+    ->middleware(['auth'])
     ->name('bids.index');
 
 Volt::route('auctions/{auction_id}', 'pages.auctions.view')
+    ->middleware(['auth'])
     ->name('auctions.view');
 
 Route::view('profile', 'profile')

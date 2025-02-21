@@ -24,6 +24,49 @@ new #[Layout('layouts.app')] class extends Component {
     }
 
 
+    public function sendMessage()
+    {
+        try {
+
+            $url = 'https://graph.facebook.com/v21.0/567024703162819/messages';
+
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . env('WHATSAPP_ACCESS_TOKEN'),
+                'Content-Type' => 'application/json',
+            ])->post($url, [
+                'messaging_product' => 'whatsapp',
+                'to' => '254795704301',
+                'type' => 'template',
+                'template' => [
+                    'name' => 'hello_world',
+                    'language' => ['code' => 'en_US'],
+                ],
+            ]);
+
+            if ($response->successful()) {
+                session()->flash('success', 'Message sent successfully!');
+            } else {
+                session()->flash('error', 'Failed to send message: ' . $response->body());
+            }
+
+        } catch (Exception $exception) {
+            session()->flash('error', 'Failed to send message: ' . $exception->getMessage());
+        }
+
+
+    }
+
+    /**
+     * WhatsApp template => auction_results
+     *
+     * Variables
+     * 1. Auction Number
+     * 2. ListingId
+     * 3. Listing Title
+     * 4. Maximum Bidding Amount
+     * 5. Winners Name
+     *
+     **/
     public function declareWinner($listing_id)
     {
 
@@ -90,9 +133,22 @@ new #[Layout('layouts.app')] class extends Component {
                     >
                         {{ session('success') }}
                     </div>
-              @endif
+                @endif
 
-                <!-- Submit Button -->
+
+                @if (session('error'))
+                    <div
+                        x-data="{ show: true }"
+                        x-init="setTimeout(() => show = false, 3000)"
+                        x-show="show"
+                        x-transition.duration.500ms
+                        class="mb-3 bg-red-500 text-white p-3 rounded-lg shadow-md"
+                    >
+                        {{ session('error') }}
+                    </div>
+            @endif
+
+            <!-- Submit Button -->
                 <a wire:navigate href="{{ route('auctions.index') }}"
                    class="mb-4 inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
                     <!-- Heroicons Arrow Left -->
@@ -199,8 +255,9 @@ new #[Layout('layouts.app')] class extends Component {
                                                        class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
                                                         Bid
                                                     </a>
-                                                    <div x-data="{ approved: false, showTooltip: false }" class="relative inline-block">
-                                                        <button wire:click="declareWinner({{ $listing->id }})"
+                                                    <div x-data="{ approved: true, showTooltip: false }"
+                                                         class="relative inline-block">
+                                                        <button wire:click="sendMessage()"
                                                                 class="inline-flex mt-3 items-center py-2 px-4 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest
                                                                 disabled:opacity-50 disabled:cursor-not-allowed
                                                                 hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300
@@ -216,7 +273,8 @@ new #[Layout('layouts.app')] class extends Component {
                                                         <div x-show="showTooltip"
                                                              class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 px-4 py-2 bg-gray-900 text-white text-sm rounded-lg shadow-lg opacity-90 transition-opacity duration-300 text-center"
                                                              x-cloak>
-                                                            🚀 Waiting for WhatsApp template approval. Once approved, you can send WhatApp Notifications.
+                                                            🚀 Waiting for WhatsApp template approval. Once approved,
+                                                            you can send WhatApp Notifications.
                                                         </div>
                                                     </div>
 
@@ -245,4 +303,5 @@ new #[Layout('layouts.app')] class extends Component {
         </div>
     </div>
 </div>
+
 
